@@ -5,7 +5,18 @@ Supplementary materials for:
 The proposed method allows for approximate self-recovery of image content based on tampered image copy alone. The image needs to be previously protected with a digital watermark. The scheme is very robust and works even after JPEG compression or brightness adjustments.
 
 This package contains a Matlab implementation with a simple graphical user interface (see `demo.m`). This demonstration is a simple illustration of the general principles - it is not suitable for production use. We have a more suitable, low-level implementation in C++. Please get in touch if you are interested.
+
 ![Demo screenshot](docs/screenshot.png)
+
+## Methodology Overview
+
+The method relies on sampling random sections of the image, which are later compressed and embedded as digital watermarks. Upon content authentication, valid sections can be recovered from authentic image regions. In the last step, the scheme performs inpainting (via iterative filtering) to fill the remaining, unknown pixels. The greater the number of available sections, the higher the reconstruction quality. Please consult the paper for more details.
+
+## Usage Instructions
+
+The demo program has three main functionalities: (1) simulation of the iterative filtering process; (2) protection of the images with a digital watermark; (3) authentication and reconstruction of the image content. The simulation allows to experiment with content reconstruction settings, which will later be used during the content protection process. Protected images can be saved as PNG files and tampered using external tools (any bitmap editor). Modified images can be loaded for inspection. Authentication allows to see the reconstructed content, as well as coarse tampering localization. 
+
+## Performance
 
 The scheme compares favorably with state-of-the-art methods. The robustness evaluation grids shown below, illustrate the reconstruction quality for various combinations of tampering rates (up to 50% of the image area) and JPEG compression factors (down to 50). We compared three schemes:
 
@@ -17,8 +28,12 @@ The scheme compares favorably with state-of-the-art methods. The robustness eval
 
 ## Links
 
-- Robustness evaluations grids in higher resolution for 30 images can be obtained here: [wifs-robustness-grids.zip](http://kt.agh.edu.pl/~korus/index.php/download_file/view/32/112/) (64 MB).
+- High resolution robustness evaluations grids for 30 images can be obtained here: [wifs-robustness-grids.zip](http://kt.agh.edu.pl/~korus/index.php/download_file/view/32/112/) (64 MB).
 - Our image dataset (100 1Mpx gray-scale photographs) can be obtained here: [wifs-2014-testset.zip](http://kt.agh.edu.pl/~korus/index.php/download_file/view/27/112/) (55 MB)
+
+## Compatibility
+
+The code was written a few years ago and should work well with Matlab versions around R2014. Rudimentary tests in R2018a revealed depreciation of Matlab's internal SVM routines - in this case, the code will fall-back to a simpler linear classifier. 
 
 ## License
 
